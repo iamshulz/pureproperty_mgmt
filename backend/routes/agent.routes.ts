@@ -16,7 +16,17 @@ router.post("/", (req: Request, res: Response) => {
         return res.status(409).json({ message: "Email already exists" });
     }
 
-    
+    // Push to array
+    const agent: PropertyAgent = {
+        id: uuid(),
+        firstName,
+        lastName,
+        email
+    };
+
+    agents.push(agent);
+
+    res.status(201).json(agent);
 });
 
 //SHOW ALL

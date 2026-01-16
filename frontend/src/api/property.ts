@@ -12,5 +12,9 @@ export const createProperties = async (payload: PropertyPayload): Promise<any> =
   return res.data
 }
 
+export const getProperties = async () => {
+  const res = await axios.get(`${API_BASE}/properties`)
+  return res.data
+}
 
 export default { createProperties }

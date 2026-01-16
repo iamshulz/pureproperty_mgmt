@@ -7,4 +7,9 @@ export const createTenant = async (payload): Promise<any> => {
   return res.data
 }
 
+export const getTenants = async () => {
+  const res = await axios.get(`${API_BASE}/tenants`)
+  return res.data
+}
+
 export default { createTenant, getTenants }

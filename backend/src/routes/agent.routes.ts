@@ -16,8 +16,6 @@ router.post("/", (req: Request, res: Response) => {
     const emailExists = agents.some(a => a.email === email);
 
     if (!validator.isEmail(email)) {
-        console.log(email);
-        console.log(validator.isEmail(email))
         return res.status(400).json({ message: "Invalid email format" });
     }
 

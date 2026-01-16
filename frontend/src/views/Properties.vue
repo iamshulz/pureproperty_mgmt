@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getProperties, type PropertyPayload } from '@/api/property.ts'
+import { createProperties, getProperties, type PropertyPayload } from '@/api/property.ts'
 import { type AgentResponse, getAllAgents } from '@/api/agent.ts'
 import { ref } from 'vue'
 
@@ -28,7 +28,7 @@ const handleCreateProperty = async () => {
 
   isLoading.value = true
   try {
-    await createProperty(newProperty.value)
+    await createProperties(newProperty.value)
     message.value = { text: 'Property created successfully!', isError: false }
     newProperty.value = { agentId: '', title: '' }
     await fetchData()

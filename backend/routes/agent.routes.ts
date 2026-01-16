@@ -8,7 +8,15 @@ const router = Router();
  * CREATE
  */
 router.post("/", (req: Request, res: Response) => {
+    const { firstName, lastName, email } = req.body;
 
+    // Check if mail already exists
+    const emailExists = agents.some(a => a.email === email);
+    if (emailExists) {
+        return res.status(409).json({ message: "Email already exists" });
+    }
+
+    
 });
 
 //SHOW ALL

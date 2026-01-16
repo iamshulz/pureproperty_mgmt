@@ -7,6 +7,12 @@ export interface PropertyPayload {
   title: string
 }
 
+export interface PropertyResponse {
+  id: string
+  createdAt: string
+  updatedAt: string
+}
+
 export const createProperties = async (payload: PropertyPayload): Promise<any> => {
   const res = await axios.post(`${API_BASE}/properties`, payload)
   return res.data

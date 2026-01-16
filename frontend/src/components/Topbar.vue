@@ -1,10 +1,5 @@
 <template>
   <header class="h-16 bg-white border-b flex items-center justify-between px-6">
     <h1 class="text-lg font-semibold">Overview</h1>
-
-    <div class="flex items-center gap-4">
-      <span class="text-sm text-gray-600">Admin</span>
-      <div class="w-8 h-8 rounded-full bg-gray-300"></div>
-    </div>
   </header>
 </template>

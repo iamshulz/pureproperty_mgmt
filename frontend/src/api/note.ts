@@ -1,4 +1,5 @@
 import axios from 'axios'
+import type { UnwrapRef } from 'vue'
 
 const API_BASE = (import.meta as any).env?.VITE_API_URL ?? ''
 
@@ -9,8 +10,8 @@ export const createNote = async (payload: any): Promise<any> => {
   return res.data
 }
 
-export const getNoteByEmail = async (): Promise<any> => {
-  const res = await axios.get(`${API_BASE}/notes`)
+export const getNoteByEmail = async (payload: { email: string }): Promise<any> => {
+  const res = await axios.post(`${API_BASE}/notes/email`, payload)
   return res.data
 }
 

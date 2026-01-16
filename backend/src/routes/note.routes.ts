@@ -9,24 +9,20 @@ const router = Router();
 
 //Create Note
 router.post("/", (req: Request, res: Response) => {
-    const { agentId, propertyId, description } = req.body;
+    const { description, email, propertyName } = req.body;
 
-    // Check if Property exists via ID
-    const propertyExists = properties.some((a) => a.id === propertyId);
-    const agentExists = agents.some((a) => a.id === agentId);
+    const foundAgent = agents.find(a => a.email === email);
+    const foundProperty = properties.find(p => p.title === propertyName);
 
-    if (!propertyExists) {
-        return res.status(404).json({ message: "Property not found" });
-    }
-    if (!agentExists) {
-        return res.status(404).json({ message: "Agent not found" });
+    if (!foundAgent || !foundProperty) {
+        return res.status(404).json({ message: "Agent or Property not found" });
     }
 
     const now = new Date();
     const newNote = {
         id: uuidv4(),
-        propertyId: propertyId,
-        agentId: agentId,
+        propertyId: foundProperty?.id,
+        agentId: foundAgent.id,
         description: description,
         createdAt: now,
         updatedAt: now,
@@ -37,21 +33,17 @@ router.post("/", (req: Request, res: Response) => {
     res.status(201).json(notes);
 });
 
-//Show all
+//Show Via Email
 router.get("/", (_req: Request, res: Response) => {
 
-    res.status(200).json(notes);
+    const { email } = _req.body;
+
+    const foundAgent = agents.find(a => a.email === email);
+    const notesList = notes.filter(n => n.agentId === foundAgent?.id)
+
+    res.status(200).json(notesList);
 });
 
-//Show Note
-router.get("/:id", (req: Request, res: Response) => {
-    const note = notes.find(a => a.id === req.params.id);
-
-    if (!note) {
-        return res.status(404).json({ message: "Note not found" });
-    }
-    res.json(note);
-});
 
 //Update Note via ID
 router.put("/:id", (req: Request, res: Response) => {

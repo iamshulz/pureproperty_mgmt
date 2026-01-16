@@ -9,11 +9,17 @@ const router = Router();
 
 //Create an agent
 router.post("/", (req: Request, res: Response) => {
-    const { email, propertyId, title, eventDate } = req.body;
+    const { email, propertyId, propertyName, title, eventDate } = req.body;
 
     // Check if an agent exists (via email record) and a property exists via ID
     const foundAgent = agents.find(a => a.email === email);
-    const propertyExists = properties.some(a => a.id === propertyId);
+
+    const property = properties.find(p => p.title === propertyName);
+    let propertyExists = properties.some(a => a.id === property?.id);
+    
+    if (!propertyExists) {
+        propertyExists = properties.some(a => a.id === propertyId);
+    }
 
     if (!foundAgent) {
         return res.status(404).json({ message: "Agent with this email is not found" });
@@ -43,9 +49,11 @@ router.post("/", (req: Request, res: Response) => {
 
 //Find all reminders for an agent
 router.get("/", (_req: Request, res: Response) => {
-    const { agentId } = _req.body;
+    const { agentId, email } = _req.body;
+    const foundAgent = agents.find(a => a.email === email);
+    console.log(foundAgent);
+    const reminderList = reminders.filter(r => r.agentId === foundAgent?.id)
 
-    const reminderList = reminders.find(r => r.agentId === agentId)
 
     res.status(200).json(reminderList);
     console.log(reminderList);

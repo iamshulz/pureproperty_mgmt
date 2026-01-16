@@ -7,27 +7,37 @@ import validator from "validator";
 const router = Router();
 
 router.post("/", (req: Request, res: Response) => {
-    const { agentId, title } = req.body as { agentId?: string; title?: string };
+    const { agentId, title, email } = req.body;
 
     // Basic presence checks
-    if (!agentId || !title) {
+    if (!title) {
         return res.status(400).json({
-            message: "agentId and title are required",
+            message: "Title is required",
         });
     }
+
+    const foundAgent = agents.find(a => a.email === email);
 
     // Check if PropertAgent exists via ID
     const agentExists = agents.some((a) => a.id === agentId);
 
-    if (!agentExists) {
+    if (!agentExists && foundAgent === undefined) {
         return res.status(404).json({ message: "Agent not found" });
+    }
+
+    const titleExists = properties.some(
+        (p) => p.title.toLowerCase() === title.trim().toLowerCase()
+    );
+
+    if (titleExists) {
+        return res.status(409).json({ message: "A property with this title already exists" });
     }
 
     // Create property
     const now = new Date();
     const newProperty = {
         id: uuidv4(),
-        agentId: agentId,
+        agentId: agentId ?? foundAgent?.id,
         title: title.trim(),
         createdAt: now,
         updatedAt: now,

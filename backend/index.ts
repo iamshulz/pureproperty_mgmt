@@ -1,10 +1,9 @@
 import express from "express";
-
+import agentRoutes from "./routes/agent.routes";
 
 const app = express();
 app.use(express.json());
-
-
+app.use("/agents", agentRoutes);
 
 const PORT = 3000;
 app.listen(PORT, () => {

@@ -21,7 +21,7 @@
 
       <router-link
         to="/properties"
-        class="block px-4 py-2 rounded hover:bg-gray-700"
+        class="ml-2 block px-4 py-2 rounded hover:bg-gray-700"
         active-class="bg-gray-700"
       >
         Properties
@@ -29,7 +29,7 @@
 
       <router-link
         to="/families"
-        class="block px-4 py-2 rounded hover:bg-gray-700"
+        class="ml-4 block px-4 py-2 rounded hover:bg-gray-700"
         active-class="bg-gray-700"
       >
         Families
@@ -37,7 +37,7 @@
 
       <router-link
         to="/tenants"
-        class="block px-4 py-2 rounded hover:bg-gray-700"
+        class="ml-6 block px-4 py-2 rounded hover:bg-gray-700"
         active-class="bg-gray-700"
       >
         Tenants
@@ -45,7 +45,7 @@
 
       <router-link
         to="/reminders"
-        class="block px-4 py-2 rounded hover:bg-gray-700"
+        class="ml-2 block px-4 py-2 rounded hover:bg-gray-700"
         active-class="bg-gray-700"
       >
         Reminders
@@ -53,7 +53,7 @@
 
       <router-link
         to="/notes"
-        class="block px-4 py-2 rounded hover:bg-gray-700"
+        class="ml-2 block px-4 py-2 rounded hover:bg-gray-700"
         active-class="bg-gray-700"
       >
         Notes

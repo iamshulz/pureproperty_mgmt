@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
-import { agents } from "../models/agenStore";
+import { agents } from "../models/agentStore";
 import { PropertyAgent } from "../models/PropertyAgent";
+import {v4 as uuidv4} from 'uuid';
 
 const router = Router();
 
@@ -18,7 +19,7 @@ router.post("/", (req: Request, res: Response) => {
 
     // Push to array
     const agent: PropertyAgent = {
-        id: uuid(),
+        id: uuidv4(),
         firstName,
         lastName,
         email,
@@ -33,6 +34,7 @@ router.post("/", (req: Request, res: Response) => {
 //SHOW ALL
 router.get("/", (_req: Request, res: Response) => {
 
+    res.status(200).json(agents);
 });
 
 //Show One :id

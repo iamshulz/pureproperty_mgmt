@@ -1,3 +1,3 @@
-import { PropertyAgent } from "./PropertyAgent";
+import { PropertyAgent } from "../PropertyAgent";
 
 export const agents: PropertyAgent[] = [];

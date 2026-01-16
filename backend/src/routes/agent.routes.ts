@@ -80,7 +80,7 @@ router.delete("/:id", (req: Request, res: Response) => {
   }
 
   agents.splice(index, 1);
-  res.status(204).send();
+  res.status(204).json({message: `Agent with id: ${req.params.id} deleted`});
 });
 
 export default router;

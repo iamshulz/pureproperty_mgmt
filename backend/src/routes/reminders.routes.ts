@@ -75,10 +75,9 @@ router.put("/:id", (req: Request, res: Response) => {
     reminder.title = title ?? reminder.title;
     reminder.eventDate = eventDate ?? reminder.eventDate;
     reminder.updatedAt = new Date();
-    reminder.isCompleted = isCompleted ?? reminder.isCompleted;
+    reminder.isCompleted = !reminder.isCompleted;
 
     res.json(reminder);
-    console.log(reminder);
 })
 
 

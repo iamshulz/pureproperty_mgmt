@@ -60,11 +60,11 @@ router.put("/:id", (req: Request, res: Response) => {
         return res.status(404).json({ message: "Property not found" });
     }
 
-    //Extract and update dats
+    //Extract and update dates
     const { title } = req.body;
 
-    property.title = title
-    property.updatedAt = new Date(),
+    property.title = title;
+    property.updatedAt = new Date();
 
     res.json(property);
 });

@@ -67,7 +67,7 @@ router.put("/:id", (req: Request, res: Response) => {
     agent.firstName = firstName ?? agent.firstName;
     agent.lastName = lastName ?? agent.lastName;
     agent.mobileNumber = mobileNumber ?? agent.mobileNumber;
-    agent.updatedAt = new Date(),
+    agent.updatedAt = new Date();
 
     res.json(agent);
 });

@@ -61,7 +61,7 @@ router.put("/:id", (req: Request, res: Response) => {
     }
 
     //Extract and update dats
-    const { firstName, lastName, mobileNumber, updatedAt } = req.body;
+    const { firstName, lastName, mobileNumber } = req.body;
 
     agent.firstName = firstName ?? agent.firstName;
     agent.lastName = lastName ?? agent.lastName;

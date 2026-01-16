@@ -16,7 +16,7 @@ router.post("/", (req: Request, res: Response) => {
 
     const property = properties.find(p => p.title === propertyName);
     let propertyExists = properties.some(a => a.id === property?.id);
-    
+
     if (!propertyExists) {
         propertyExists = properties.some(a => a.id === propertyId);
     }
@@ -48,12 +48,14 @@ router.post("/", (req: Request, res: Response) => {
 });
 
 //Find all reminders for an agent
-router.get("/", (_req: Request, res: Response) => {
-    const { agentId, email } = _req.body;
+router.post("/agent", (_req: Request, res: Response) => {
+    const { email } = _req.body;
     const foundAgent = agents.find(a => a.email === email);
-    console.log(foundAgent);
     const reminderList = reminders.filter(r => r.agentId === foundAgent?.id)
-
+    console.log(email)
+    if( email === 'all') {
+        return res.status(200).json(reminders);
+    }
 
     res.status(200).json(reminderList);
     console.log(reminderList);

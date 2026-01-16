@@ -14,7 +14,7 @@ router.post("/", (req: Request, res: Response) => {
 
     // Check if mail already exists
     const emailExists = agents.some(a => a.email === email);
-
+    // Check if format is correct
     if (!validator.isEmail(email)) {
         return res.status(400).json({ message: "Invalid email format" });
     }
@@ -55,7 +55,20 @@ router.get("/:id", (req: Request, res: Response) => {
 
 //Update Item
 router.put("/:id", (req: Request, res: Response) => {
+    const agent = agents.find(a => a.id === req.params.id);
 
+    if (!agent) {
+        return res.status(404).json({ message: "Agent not found" });
+    }
+
+    //Update
+    const { firstName, lastName, mobileNumber } = req.body;
+
+    agent.firstName = firstName ?? agent.firstName;
+    agent.lastName = lastName ?? agent.lastName;
+    agent.mobileNumber = mobileNumber ?? agent.mobileNumber;
+
+    res.json(agent);
 });
 
 /// Delte Item

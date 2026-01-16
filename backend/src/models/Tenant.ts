@@ -4,6 +4,6 @@ export interface Tenant {
     firstName: string;
     middleName: string;
     lastName: string;
-    createdAt: string;
-    updatedAt: string;
+    createdAt: Date;
+    updatedAt: Date;
 }

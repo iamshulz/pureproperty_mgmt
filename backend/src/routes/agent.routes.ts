@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { agents } from "../models/agentStore";
+import { agents } from "../models/stores/agentStore";
 import { PropertyAgent } from "../models/PropertyAgent";
 import {v4 as uuidv4} from 'uuid';
 import validator from "validator";
@@ -27,7 +27,9 @@ router.post("/", (req: Request, res: Response) => {
         firstName,
         lastName,
         email,
-        mobileNumber
+        mobileNumber,
+        createdAt: new Date(),
+        updatedAt: new Date()
     };
 
     agents.push(agent);
@@ -60,11 +62,12 @@ router.put("/:id", (req: Request, res: Response) => {
     }
 
     //Extract and update dats
-    const { firstName, lastName, mobileNumber } = req.body;
+    const { firstName, lastName, mobileNumber, updatedAt } = req.body;
 
     agent.firstName = firstName ?? agent.firstName;
     agent.lastName = lastName ?? agent.lastName;
     agent.mobileNumber = mobileNumber ?? agent.mobileNumber;
+    agent.updatedAt = new Date(),
 
     res.json(agent);
 });

@@ -8,7 +8,7 @@ const router = Router();
  * CREATE
  */
 router.post("/", (req: Request, res: Response) => {
-    const { firstName, lastName, email } = req.body;
+    const { firstName, lastName, email, mobileNumber } = req.body;
 
     // Check if mail already exists
     const emailExists = agents.some(a => a.email === email);
@@ -21,7 +21,8 @@ router.post("/", (req: Request, res: Response) => {
         id: uuid(),
         firstName,
         lastName,
-        email
+        email,
+        mobileNumber
     };
 
     agents.push(agent);

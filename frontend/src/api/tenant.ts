@@ -25,4 +25,9 @@ export const getTenants = async (): Promise<TenantResponse[]> => {
   return res.data
 }
 
-export default { createTenant, getTenants }
+export const deleteTenant = async (id: string): Promise<any> => {
+  const res = await axios.delete(`${API_BASE}/tenants/${id}`)
+  return res.data
+}
+
+export default { createTenant, getTenants, deleteTenant }

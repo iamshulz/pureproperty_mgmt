@@ -3,11 +3,16 @@ import axios from 'axios'
 const API_BASE = (import.meta as any).env?.VITE_API_URL ?? ''
 
 export interface FamilyPayload {
-
+  propertyId: string;
+  lastName: string;
 }
 
 export interface FamilyResponse {
-
+  id: string;
+  propertyId: string;
+  lastName: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export const createFamily = async (payload: FamilyPayload): Promise<any> => {

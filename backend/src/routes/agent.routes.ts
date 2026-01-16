@@ -22,7 +22,7 @@ router.post("/", (req: Request, res: Response) => {
     }
 
     // Push to array
-    const agent: PropertyAgent = {
+    const agent = {
         id: uuidv4(),
         firstName,
         lastName,

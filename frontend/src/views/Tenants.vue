@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { getAllFamily, type FamilyResponse } from '@/api/family'
-import { createTenant, getTenants, type TenantPayload, type TenantResponse } from '@/api/tenant'
+import {
+  createTenant,
+  deleteTenant,
+  getTenants,
+  type TenantPayload,
+  type TenantResponse,
+} from '@/api/tenant'
 
-
+const tenants = ref<TenantResponse[]>([])
 const families = ref<FamilyResponse[]>([])
 const isLoading = ref(false)
 const message = ref({ text: '', isError: false })
@@ -17,9 +23,9 @@ const newTenant = ref<TenantPayload>({
 
 const fetchData = async () => {
   try {
-    const [familiesData] = await Promise.all([getAllFamily()])
+    const [familiesData, tenantsData] = await Promise.all([getAllFamily(), getTenants()])
     families.value = familiesData
-    
+    tenants.value = tenantsData
   } catch (err) {
     console.error('Failed to load data', err)
   }
@@ -44,6 +50,19 @@ const handleCreateTenant = async () => {
     }
   } finally {
     isLoading.value = false
+  }
+}
+
+const handleDeleteTenant = async (id: string) => {
+  try {
+    await deleteTenant(id)
+    message.value = { text: 'Tenant deleted successfully!', isError: false }
+    await fetchData()
+  } catch (err: any) {
+    message.value = {
+      text: err.response?.data?.message || 'Error deleting tenant',
+      isError: true,
+    }
   }
 }
 
@@ -131,6 +150,53 @@ onMounted(fetchData)
       </form>
     </div>
 
-
+    <!-- Tenants Table -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="bg-gray-50 px-8 py-4 border-b border-gray-100">
+        <h2 class="text-xl font-bold text-gray-800">Tenants</h2>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left">
+          <thead>
+            <tr class="text-xs uppercase text-gray-500 bg-gray-50/50 tracking-wider">
+              <th class="px-8 py-4 font-semibold">Full Name</th>
+              <th class="px-8 py-4 font-semibold">Family Group</th>
+              <th class="px-8 py-4 font-semibold">Registered</th>
+              <th class="px-8 py-4 font-semibold">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100">
+            <tr
+              v-for="tenant in tenants"
+              :key="tenant.id"
+              class="hover:bg-gray-50 transition-colors group cursor-pointer"
+            >
+              <td class="px-8 py-4 text-gray-900 font-medium">
+                {{ tenant.firstName }} {{ tenant.middleName }} {{ tenant.lastName }}
+              </td>
+              <td class="px-8 py-4 text-gray-600">
+                {{ families.find((f) => f.id === tenant.familyId)?.lastName || 'Unknown Family' }}
+              </td>
+              <td class="px-8 py-4 text-gray-500 text-sm">
+                {{ new Date(tenant.createdAt).toLocaleDateString() }}
+              </td>
+              <td class="px-8 py-4">
+                <button
+                  @click.stop="handleDeleteTenant(tenant.id)"
+                  class="text-red-500 hover:text-red-700 font-medium text-sm transition-colors cursor-pointer opacity-0 group-hover:opacity-100"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+            <tr v-if="tenants.length === 0">
+              <td colspan="3" class="px-8 py-12 text-center text-gray-400 italic">
+                No tenants registered yet.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </template>

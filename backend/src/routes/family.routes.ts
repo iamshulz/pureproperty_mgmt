@@ -25,7 +25,7 @@ router.post("/", (req: Request, res: Response) => {
         createdAt: now,
         updatedAt: now,
     };
-    
+
     families.push(newFamily);
 
     res.status(201).json(families);
@@ -56,7 +56,7 @@ router.put("/:id", (req: Request, res: Response) => {
     }
 
     //Extract and update dats
-    const { firstName, lastName, mobileNumber, updatedAt } = req.body;
+    const { lastName } = req.body;
 
 
     family.lastName = lastName,

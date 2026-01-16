@@ -34,7 +34,7 @@ router.post("/", (req: Request, res: Response) => {
 });
 
 //Show Via Email
-router.get("/", (_req: Request, res: Response) => {
+router.post("/email", (_req: Request, res: Response) => {
 
     const { email } = _req.body;
 

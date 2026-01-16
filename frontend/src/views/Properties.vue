@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { createProperties, getProperties, type PropertyPayload } from '@/api/property.ts'
 import { type AgentResponse, getAllAgents } from '@/api/agent.ts'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const properties = ref([])
 const agents = ref<AgentResponse[]>([])
@@ -18,6 +18,9 @@ const fetchData = async () => {
     const [agentsData, propsData] = await Promise.all([getAllAgents(), getProperties()])
     agents.value = agentsData
     properties.value = propsData
+
+    console.table(agents.value)
+    console.table(properties.value)
   } catch (err) {
     console.error('Failed to fetch data', err)
   }
@@ -41,6 +44,10 @@ const handleCreateProperty = async () => {
     isLoading.value = false
   }
 }
+
+onMounted(() => {
+  fetchData();
+})
 </script>
 
 <template>

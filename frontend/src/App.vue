@@ -12,7 +12,7 @@ import Sidebar from '@/components/Sidebar.vue'
       <Topbar />
 
       <main class="p-6 overflow-y-auto">
-        <router-view />
+        <RouterView />
       </main>
     </div>
   </div>

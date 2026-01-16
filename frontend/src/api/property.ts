@@ -17,4 +17,9 @@ export const getProperties = async () => {
   return res.data
 }
 
+export const deleteProperty = async (id: string) => {
+  const res = await axios.delete(`${API_BASE}/properties/${id}`)
+  return res.data
+}
+
 export default { createProperties }

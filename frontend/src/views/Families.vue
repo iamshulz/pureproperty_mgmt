@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { createFamily, type FamilyPayload, getAllFamily } from '@/api/family.ts'
+import { createFamily, type FamilyPayload, getAllFamily, deleteFamily } from '@/api/family.ts'
 import { onMounted, ref } from 'vue'
-import families from '@/views/Families.vue'
-import { getProperties } from '@/api/property.ts'
+import { deleteProperty, getProperties } from '@/api/property.ts'
 
 const isLoading = ref(false)
 const message = ref({ text: '', isError: false })
@@ -12,6 +11,7 @@ const newFamily = ref<FamilyPayload>({
   lastName: '',
 })
 const properties = ref([])
+const families = ref<FamilyPayload[]>([])
 
 const fetchData = async () => {
   try {
@@ -21,7 +21,15 @@ const fetchData = async () => {
   } catch (err) {
     console.error('Failed to load data', err)
   }
+}
 
+const handleDeleteFamily = async (id: string) => {
+  try {
+    await deleteFamily(id)
+    await fetchData()
+  } catch (err) {
+    console.error(err)
+  }
 }
 
 const handleCreateFamily = async () => {
@@ -106,6 +114,46 @@ onMounted(() => {
           </button>
         </div>
       </form>
+    </div>
+
+    <!-- Simple Table to show Families -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="bg-gray-50 px-8 py-4 border-b border-gray-100">
+        <h2 class="text-xl font-bold text-gray-800">Families</h2>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left">
+          <thead>
+            <tr class="text-xs uppercase text-gray-500 bg-gray-50/50">
+              <th class="px-8 py-4 font-semibold">Last Name</th>
+              <th class="px-8 py-4 font-semibold">Property</th>
+              <th class="px-8 py-4 font-semibold">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100">
+            <tr
+              v-for="family in families"
+              :key="family.id"
+              class="hover:bg-gray-50 transition-colors group cursor-pointer"
+            >
+              <td class="px-8 py-4 font-medium text-gray-900">{{ family.lastName }}</td>
+              <td class="px-8 py-4 text-gray-600">
+                {{
+                  properties.find((p) => p.id === family.propertyId)?.title || 'Unknown Property'
+                }}
+              </td>
+              <td class="px-8 py-4">
+                <button
+                  @click.stop="handleDeleteFamily(family.id)"
+                  class="text-red-500 hover:text-red-700 font-medium text-sm transition-colors cursor-pointer opacity-0 group-hover:opacity-100"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>

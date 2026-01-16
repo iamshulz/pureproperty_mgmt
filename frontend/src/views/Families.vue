@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import { createFamily, type FamilyPayload, getAllFamily, deleteFamily } from '@/api/family.ts'
+import {
+  createFamily,
+  type FamilyPayload,
+  getAllFamily,
+  deleteFamily,
+  type FamilyResponse,
+} from '@/api/family.ts'
 import { onMounted, ref } from 'vue'
-import { getProperties, type PropertyPayload } from '@/api/property.ts'
+import { getProperties, type PropertyPayload, type PropertyResponse } from '@/api/property.ts'
 
 const isLoading = ref(false)
 const message = ref({ text: '', isError: false })
@@ -10,8 +16,8 @@ const newFamily = ref<FamilyPayload>({
   propertyId: '',
   lastName: '',
 })
-const properties = ref<PropertyPayload[]>([])
-const families = ref<FamilyPayload[]>([])
+const properties = ref([])
+const families = ref<FamilyResponse[]>([])
 
 const fetchData = async () => {
   try {

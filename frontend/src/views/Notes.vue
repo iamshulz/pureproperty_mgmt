@@ -6,10 +6,10 @@ import { createNote, deleteNote, getNoteByEmail, updateNote } from '@/api/note'
 
 const agents = ref<AgentResponse[]>([])
 const properties = ref<any[]>([])
-const notesList = ref<NoteResponse[]>([])
+const notesList = ref<any[]>([])
 const selectedAgentEmail = ref<string>('all')
 
-const newNote = ref<NotePayload>({
+const newNote = ref<any>({
   description: '',
   email: '',
   propertyName: '',
@@ -73,7 +73,7 @@ const handleDeleteNote = async (id: string) => {
   }
 }
 
-const startEdit = (note: NoteResponse) => {
+const startEdit = (note: any) => {
   editingId.value = note.id
   editDescription.value = note.description
 }

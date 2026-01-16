@@ -3,8 +3,6 @@ import type { UnwrapRef } from 'vue'
 
 const API_BASE = (import.meta as any).env?.VITE_API_URL ?? ''
 
-
-
 export const createNote = async (payload: any): Promise<any> => {
   const res = await axios.post(`${API_BASE}/notes`, payload)
   return res.data

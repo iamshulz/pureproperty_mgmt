@@ -3,6 +3,7 @@ import agentRoutes from "./routes/agent.routes";
 import propertyRoutes from "./routes/property.routes";
 import familyRoutes from "./routes/family.routes";
 import tenantRoutes from "./routes/tenant.routes";
+import noteRoutes from "./routes/note.routes";
 
 const app = express();
 const PORT = 3000;
@@ -12,6 +13,7 @@ app.use("/agents", agentRoutes);
 app.use("/properties", propertyRoutes);
 app.use("/families", familyRoutes);
 app.use("/tenants", tenantRoutes);
+app.use("/notes", noteRoutes);
 
 
 app.listen(PORT, () => {

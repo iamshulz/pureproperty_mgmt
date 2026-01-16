@@ -1,16 +1,21 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import Dashboard from './components/Dashboard.vue'
+import Topbar from '@/components/Topbar.vue'
+import Sidebar from '@/components/Sidebar.vue'
 </script>
 
 <template>
-  <header>
-    <div class="container">
-      <Dashboard />
+  <div class="flex h-screen bg-gray-100">
+    <Sidebar />
+
+    <div class="flex flex-col flex-1">
+      <Topbar />
+
+      <main class="p-6 overflow-y-auto">
+        <router-view />
+      </main>
     </div>
-  </header>
+  </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

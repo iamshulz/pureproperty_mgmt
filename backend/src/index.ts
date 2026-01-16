@@ -5,9 +5,15 @@ import familyRoutes from "./routes/family.routes";
 import tenantRoutes from "./routes/tenant.routes";
 import noteRoutes from "./routes/note.routes";
 import remindersRoutes from "./routes/reminders.routes";
+import cors from "cors";
 
 const app = express();
 const PORT = 3000;
+
+
+app.use(cors({
+  origin: "http://localhost:5173"
+}));
 
 app.use(express.json());
 

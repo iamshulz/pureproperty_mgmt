@@ -2,7 +2,13 @@
 import { ref, onMounted, watch, computed, watchEffect, toRef } from 'vue'
 import { getAllAgents, type AgentResponse } from '@/api/agent'
 import { getProperties, type PropertyPayload, type PropertyResponse } from '@/api/property'
-import { createReminder, getRemindersByAgent, type ReminderPayload } from '@/api/reminder'
+import {
+  createReminder,
+  getRemindersByAgent,
+  type ReminderPayload,
+  updateReminder,
+  type UpdateReminderPayload,
+} from '@/api/reminder'
 
 const agents = ref<AgentResponse[]>([])
 const properties = ref<{ id: string; title: string; agentId: string }[]>([])
@@ -12,6 +18,7 @@ const agentMail = ref('all')
 
 const isLoading = ref(false)
 const message = ref({ text: '', isError: false })
+const processingId = ref<string | null>(null)
 
 const newReminder = ref<ReminderPayload>({
   email: '',
@@ -74,6 +81,19 @@ const fetchData = async () => {
     }
   } catch (err) {
     console.error('Failed to load data', err)
+  }
+}
+
+const handleSetDone = async (id: string, rem: UpdateReminderPayload) => {
+  try {
+    const result = await updateReminder(id, rem)
+    message.value = { text: 'Reminder updated successfully!', isError: false }
+    processingId.value = id
+
+    await handleLoadReminders()
+  } catch (err) {
+    console.error('Failed to update reminder', err)
+    message.value = { text: 'Failed to update reminder', isError: true }
   }
 }
 
@@ -192,6 +212,7 @@ onMounted(fetchData)
               <th class="px-8 py-4">Property</th>
               <th class="px-8 py-4">Due Date</th>
               <th class="px-8 py-4">Status</th>
+              <th class="px-8 py-4">Actions</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-100">
@@ -218,6 +239,17 @@ onMounted(fetchData)
                 >
                   {{ rem.isCompleted ? 'Done' : 'Pending' }}
                 </span>
+              </td>
+              <td class="px-8 py-4">
+                <button
+                  v-if="!rem.isCompleted"
+                  type="button"
+                  :disabled="processingId === rem.id"
+                  class="px-4 py-2 rounded text-xs font-bold uppercase cursor-pointer bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-300 transition-all flex items-center justify-center min-w-[100px]"
+                  @click="handleSetDone(rem.id, rem)"
+                >
+                  {{ rem.isCompleted ? '' : 'Set as Done' }}
+                </button>
               </td>
             </tr>
 

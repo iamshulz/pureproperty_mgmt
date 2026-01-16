@@ -1,5 +1,4 @@
 import axios from 'axios'
-import type { Ref, UnwrapRef } from 'vue'
 
 const API_BASE = (import.meta as any).env?.VITE_API_URL ?? ''
 
@@ -9,6 +8,14 @@ export interface ReminderPayload {
   propertyName: string;
   title: string;
   eventDate: string;
+}
+
+export interface UpdateReminderPayload {
+  agentId: string
+  propertyId: string
+  title: string
+  eventDate: string
+  isCompleted: boolean
 }
 
 interface GetReminderPayload {
@@ -22,8 +29,12 @@ export const createReminder = async (payload: ReminderPayload): Promise<any> => 
 
 export const getRemindersByAgent = async (payload: { email: string }): Promise<any> => {
   const res = await axios.post(`${API_BASE}/reminders/agent`, payload)
-  console.log(res.data)
   return res.data
 }
 
-export default { createReminder, getRemindersByAgent }
+export const updateReminder = async (id: string, payload: UpdateReminderPayload): Promise<any> => {
+  const res = await axios.put(`${API_BASE}/reminders/${id}`, payload)
+  return res.data
+}
+
+export default { createReminder, getRemindersByAgent, updateReminder }

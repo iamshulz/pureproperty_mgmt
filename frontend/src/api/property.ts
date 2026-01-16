@@ -4,6 +4,7 @@ const API_BASE = (import.meta as any).env?.VITE_API_URL ?? ''
 
 export interface PropertyPayload {
   title: string
+  agentId: string
 }
 
 export interface PropertyResponse {
@@ -22,7 +23,7 @@ export const getProperties = async () => {
   return res.data
 }
 
-export const updateProperty = async (id: string, payload: PropertyPayload) => {
+export const updateProperty = async (id: string, payload: { title: string }) => {
   const res = await axios.put(`${API_BASE}/properties/${id}`, payload)
   return res.data
 }

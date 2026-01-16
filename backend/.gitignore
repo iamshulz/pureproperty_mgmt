@@ -3,6 +3,7 @@ package-lock.json
 npm-shrinkwrap.json
 *.log
 *.gz
+dist
 
 # Yarn
 yarn-error.log

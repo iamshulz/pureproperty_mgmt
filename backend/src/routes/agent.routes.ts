@@ -6,9 +6,7 @@ import validator from "validator";
 
 const router = Router();
 
-/**
- * CREATE
- */
+//Create an agent
 router.post("/", (req: Request, res: Response) => {
     const { firstName, lastName, email, mobileNumber } = req.body;
 
@@ -37,13 +35,13 @@ router.post("/", (req: Request, res: Response) => {
     res.status(201).json(agent);
 });
 
-//SHOW ALL
+//Show all agents
 router.get("/", (_req: Request, res: Response) => {
 
     res.status(200).json(agents);
 });
 
-//Show One :id
+//Show Agent
 router.get("/:id", (req: Request, res: Response) => {
     const agent = agents.find(a => a.id === req.params.id);
 
@@ -53,7 +51,7 @@ router.get("/:id", (req: Request, res: Response) => {
     res.json(agent);
 });
 
-//Update Item
+//Update Agent via ID
 router.put("/:id", (req: Request, res: Response) => {
     const agent = agents.find(a => a.id === req.params.id);
 
@@ -61,7 +59,7 @@ router.put("/:id", (req: Request, res: Response) => {
         return res.status(404).json({ message: "Agent not found" });
     }
 
-    //Update
+    //Extract and update dats
     const { firstName, lastName, mobileNumber } = req.body;
 
     agent.firstName = firstName ?? agent.firstName;
@@ -71,9 +69,15 @@ router.put("/:id", (req: Request, res: Response) => {
     res.json(agent);
 });
 
-/// Delte Item
+/// Delte Agent
 router.delete("/:id", (req: Request, res: Response) => {
+  const index = agents.findIndex(a => a.id === req.params.id);
+  if (index === -1) {
+    return res.status(404).json({ message: "Agent not found" });
+  }
 
+  agents.splice(index, 1);
+  res.status(204).send();
 });
 
 export default router;

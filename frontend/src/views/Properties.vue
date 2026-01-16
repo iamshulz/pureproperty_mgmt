@@ -38,9 +38,6 @@ const fetchData = async () => {
     const [agentsData, propsData] = await Promise.all([getAllAgents(), getProperties()])
     agents.value = agentsData
     properties.value = propsData
-
-    console.table(agents.value)
-    console.table(properties.value)
   } catch (err) {
     console.error('Failed to fetch data', err)
   }
@@ -59,7 +56,7 @@ const handleUpdate = async (id: string) => {
   isLoading.value = true
   try {
     await updateProperty(id, {
-      title: editForm.value.title!, 
+      title: editForm.value.title!,
     })
     editingId.value = null
     await fetchData()
